@@ -9,30 +9,32 @@ import com.google.gson.JsonObject;
 import com.revature.gradingsystem.exception.ServiceException;
 import com.revature.gradingsystem.exception.ValidatorException;
 import com.revature.gradingsystem.model.UserDetails;
-import com.revature.gradingsystem.service.UserService;
+import com.revature.gradingsystem.service.AdminService;
 import com.revature.gradingsystem.validator.UserValidator;
 
 @RestController
-public class UserLoginController {
+public class AdminController {
+
+	private final UserValidator uservalidator = new UserValidator();
+	private final AdminService adminService = new AdminService();
 	
-	@GetMapping("userlogin")
-	public String userLogin(@RequestParam("username") String name, @RequestParam("password")String password)
-	{
-		UserValidator uservalidator1 = new UserValidator();
-		UserService userservice = new UserService();
+	@GetMapping("adminlogin")
+	public String adminLogin(@RequestParam("username") String name, @RequestParam("password") String password) {
 
 		UserDetails userdetail = null;
 		String errMessage = "";
 		
 		try {
-			uservalidator1.userInput(name, password);
-			userdetail = userservice.userLogin(name, password);
+			uservalidator.userInput(name, password);
+			userdetail = adminService.adminLogin(name, password);
 		} catch (ValidatorException e) {
+			e.printStackTrace();
 			errMessage = e.getMessage();
 		} catch (ServiceException e) {
+			e.printStackTrace();
 			errMessage = e.getMessage();
 		}
-		//prepare JSON obj
+		
 		String json = null;
 		Gson gson = new Gson();
 		if(userdetail != null)
@@ -43,7 +45,7 @@ public class UserLoginController {
 			jsonObj.addProperty("errorMessage", errMessage);
 			json = jsonObj.toString();
 		}
-		return json;	
+		return json;
 	}
-
+	
 }
