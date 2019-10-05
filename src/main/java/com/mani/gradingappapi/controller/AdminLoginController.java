@@ -15,11 +15,11 @@ import com.revature.gradingsystem.validator.UserValidator;
 @RestController
 public class AdminLoginController {
 
+	private final UserValidator uservalidator = new UserValidator();
+	private final AdminService adminService = new AdminService();
+	
 	@GetMapping("adminlogin")
 	public String adminLogin(@RequestParam("username") String name, @RequestParam("password") String password) {
-
-		UserValidator uservalidator = new UserValidator();
-		AdminService adminService = new AdminService();
 
 		UserDetails userdetail = null;
 		String errMessage = "";
