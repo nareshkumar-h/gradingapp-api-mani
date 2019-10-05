@@ -1,5 +1,6 @@
 package com.mani.gradingappapi.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +15,10 @@ import com.revature.gradingsystem.validator.UserValidator;
 
 @RestController
 public class AdminController {
-
-	private final UserValidator uservalidator = new UserValidator();
-	private final AdminService adminService = new AdminService();
+	@Autowired
+	private UserValidator userValidator;
+	@Autowired
+	private AdminService adminService;
 	
 	@GetMapping("adminlogin")
 	public String adminLogin(@RequestParam("username") String name, @RequestParam("password") String password) {
@@ -25,7 +27,7 @@ public class AdminController {
 		String errMessage = "";
 		
 		try {
-			uservalidator.userInput(name, password);
+			userValidator.userInput(name, password);
 			userdetail = adminService.adminLogin(name, password);
 		} catch (ValidatorException e) {
 			e.printStackTrace();

@@ -2,6 +2,7 @@ package com.mani.gradingappapi.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,11 @@ import com.revature.gradingsystem.validator.GradeValidator;
 @RestController
 public class GradeController {
 
+	@Autowired
+	UserFeatureService userFeature;
+	@Autowired
+	GradeValidator gradeValidator;
+	
 	@GetMapping("gradeWiseList")
 	public String gradeWiseList() {
 	
@@ -25,7 +31,7 @@ public class GradeController {
 		String status = "";
 	
 		try {
-			list = new UserFeatureService().listOfStudentService();
+			list = userFeature.listOfStudentService();
 			status = "success";
 		} catch (ServiceException e) {
 			errorMessage = e.getMessage();
@@ -53,11 +59,10 @@ public class GradeController {
 
 		try {
 			// grade Validation
-			GradeValidator gradeValidator = new GradeValidator();
 			gradeValidator.gradeCheck(grade.toUpperCase());
 
 			// call Service class and get the result
-			list = new UserFeatureService().findByGradeService(grade.toUpperCase());
+			list = userFeature.findByGradeService(grade.toUpperCase());
 
 			status = "success";
 

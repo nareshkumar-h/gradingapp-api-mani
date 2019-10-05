@@ -1,5 +1,6 @@
 package com.mani.gradingappapi.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,18 +15,19 @@ import com.revature.gradingsystem.validator.UserValidator;
 
 @RestController
 public class UserController {
+	@Autowired
+	UserValidator uservalidator;
+	@Autowired
+	UserService userservice;
 	
 	@GetMapping("userlogin")
 	public String userLogin(@RequestParam("username") String name, @RequestParam("password")String password)
 	{
-		UserValidator uservalidator1 = new UserValidator();
-		UserService userservice = new UserService();
-
 		UserDetails userdetail = null;
 		String errMessage = "";
 		
 		try {
-			uservalidator1.userInput(name, password);
+			uservalidator.userInput(name, password);
 			userdetail = userservice.userLogin(name, password);
 		} catch (ValidatorException e) {
 			errMessage = e.getMessage();

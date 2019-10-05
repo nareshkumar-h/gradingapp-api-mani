@@ -2,6 +2,7 @@ package com.mani.gradingappapi.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +18,10 @@ import com.revature.gradingsystem.validator.GradeValidator;
 
 @RestController
 public class ScoreController {
-	
-	private final GradeValidator gradeValidator = new GradeValidator();
-	private final AdminService adminservice = new AdminService();
+	@Autowired
+	private GradeValidator gradeValidator;
+	@Autowired
+	private AdminService adminservice;
 	
 	@GetMapping("defineScore")
 	public String defineScore(@RequestParam("grade") String grade, @RequestParam("min") int min, @RequestParam("max") int max)
@@ -79,7 +81,6 @@ public class ScoreController {
 	@GetMapping("viewScore")
 	public String viewScore()
 	{
-		AdminService adminservice = new AdminService();
 		List<ScoreRange> list = null;
 		String errorMessage = null;
 		String status = "";

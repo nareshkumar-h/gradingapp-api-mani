@@ -3,6 +3,7 @@ package com.mani.gradingappapi.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,9 @@ import com.revature.gradingsystem.service.UserFeatureService;
 import com.revature.gradingsystem.validator.StudentValidator;
 
 @RestController
-public class UpdateMarkController {
+public class MarkController {
+	@Autowired
+	StudentValidator studentValidate;
 
 	@GetMapping("updateMark")
 	public String updateMark(@RequestParam("regno")int regno, @RequestParam("mark1")int mark1, @RequestParam("mark2")int mark2, @RequestParam("mark3")int mark3, @RequestParam("mark4")int mark4, @RequestParam("mark5")int mark5) {
@@ -66,7 +69,6 @@ public class UpdateMarkController {
 		String errorMessage = null;
 		String status = "";
 		try {
-			StudentValidator studentValidate = new StudentValidator();
 			studentValidate.isRegnoUpdated(regno);
 
 			new UserFeatureService().updateMarksAndGradeService(regno, list);

@@ -2,6 +2,7 @@ package com.mani.gradingappapi.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,8 @@ import com.revature.gradingsystem.validator.StudentValidator;
 
 @RestController
 public class ResultController {
+	@Autowired
+	UserFeatureService userFeature;
 
 	@GetMapping("studentResult")
 	public String studentResult(@RequestParam("regno")int regno){
@@ -30,10 +33,10 @@ public class ResultController {
 			studentValidate.isRegnoExistService(regno);
 			
 			//get the StudentName, Average, Grade
-			studentResult = new UserFeatureService().getStudentResult(regno);
+			studentResult = userFeature.getStudentResult(regno);
 			
 			//get the Marks and Sub-Code
-			markList = new UserFeatureService().getStudentMarks(regno);
+			markList = userFeature.getStudentMarks(regno);
 			
 			Gson gson = new Gson();
 			String json1 = gson.toJson(markList);
