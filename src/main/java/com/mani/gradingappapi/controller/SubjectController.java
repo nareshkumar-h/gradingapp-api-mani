@@ -2,6 +2,7 @@ package com.mani.gradingappapi.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +15,9 @@ import com.revature.gradingsystem.service.UserFeatureService;
 
 @RestController
 public class SubjectController {
-
+	@Autowired
+	UserFeatureService userFeature;
+	
 	@GetMapping("subjectWise")
 	public String subjectWiseRankHolder(@RequestParam("subjectCode")String subCode){
 		
@@ -22,7 +25,7 @@ public class SubjectController {
 		String errorMessage = "";
 		String status = "";
 		try {
-			list = new UserFeatureService().findBySubjectCodeService(subCode);
+			list = userFeature.findBySubjectCodeService(subCode);
 			status = "success";
 		} catch (ServiceException e) {
 			errorMessage = e.getMessage();
