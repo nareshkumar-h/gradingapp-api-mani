@@ -20,7 +20,9 @@ import com.revature.gradingsystem.validator.StudentValidator;
 public class MarkController {
 	@Autowired
 	StudentValidator studentValidate;
-
+	@Autowired
+	UserFeatureService userFeature;
+	
 	@GetMapping("updateMark")
 	public String updateMark(@RequestParam("regno")int regno, @RequestParam("mark1")int mark1, @RequestParam("mark2")int mark2, @RequestParam("mark3")int mark3, @RequestParam("mark4")int mark4, @RequestParam("mark5")int mark5) {
 		
@@ -71,7 +73,7 @@ public class MarkController {
 		try {
 			studentValidate.isRegnoUpdated(regno);
 
-			new UserFeatureService().updateMarksAndGradeService(regno, list);
+			userFeature.updateMarksAndGradeService(regno, list);
 
 			status = "Success";
 		} catch (ValidatorException e) {
