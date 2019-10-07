@@ -38,9 +38,6 @@ public class ScoreController {
 			errorMessage = e.getMessage();
 		} catch (ValidatorException e) {
 			errorMessage = e.getMessage();
-		}catch (DBException e) {
-			errorMessage = e.getMessage();
-
 		}
 
 		String json = null;
