@@ -17,7 +17,7 @@ import com.revature.gradingsystem.validator.StudentValidator;
 @RestController
 public class ResultController {
 	@Autowired
-	private UserService userFeature;
+	private UserService userService;
 
 	@GetMapping("studentResult")
 	public String studentResult(@RequestParam("regno")int regno){
@@ -33,10 +33,10 @@ public class ResultController {
 			studentValidate.isRegnoExistService(regno);
 			
 			//get the StudentName, Average, Grade
-			studentResult = userFeature.getStudentResult(regno);
+			studentResult = userService.getStudentResult(regno);
 			
 			//get the Marks and Sub-Code
-			markList = userFeature.getStudentMarks(regno);
+			markList = userService.getStudentMarks(regno);
 			
 			Gson gson = new Gson();
 			String json1 = gson.toJson(markList);
