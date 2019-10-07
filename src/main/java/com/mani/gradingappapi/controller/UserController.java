@@ -16,9 +16,9 @@ import com.revature.gradingsystem.validator.UserValidator;
 @RestController
 public class UserController {
 	@Autowired
-	UserValidator uservalidator;
+	private UserValidator uservalidator;
 	@Autowired
-	UserService userservice;
+	private UserService userservice;
 	
 	@GetMapping("userlogin")
 	public String userLogin(@RequestParam("username") String name, @RequestParam("password")String password)
