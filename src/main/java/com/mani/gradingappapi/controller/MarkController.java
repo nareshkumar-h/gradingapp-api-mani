@@ -13,7 +13,7 @@ import com.revature.gradingsystem.exception.ServiceException;
 import com.revature.gradingsystem.exception.ValidatorException;
 import com.revature.gradingsystem.model.StudentMark;
 import com.revature.gradingsystem.model.Subject;
-import com.revature.gradingsystem.service.UserFeatureService;
+import com.revature.gradingsystem.service.UserService;
 import com.revature.gradingsystem.validator.StudentValidator;
 
 @RestController
@@ -21,7 +21,7 @@ public class MarkController {
 	@Autowired
 	StudentValidator studentValidate;
 	@Autowired
-	UserFeatureService userFeature;
+	UserService userFeature;
 	
 	@GetMapping("updateMark")
 	public String updateMark(@RequestParam("regno")int regno, @RequestParam("mark1")int mark1, @RequestParam("mark2")int mark2, @RequestParam("mark3")int mark3, @RequestParam("mark4")int mark4, @RequestParam("mark5")int mark5) {
