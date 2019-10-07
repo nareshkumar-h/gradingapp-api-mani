@@ -19,7 +19,7 @@ import com.revature.gradingsystem.validator.GradeValidator;
 public class GradeController {
 
 	@Autowired
-	private UserService userFeature;
+	private UserService userService;
 	@Autowired
 	private GradeValidator gradeValidator;
 	
@@ -31,7 +31,7 @@ public class GradeController {
 		String status = "";
 	
 		try {
-			list = userFeature.listOfStudentService();
+			list = userService.listOfStudentService();
 			status = "success";
 		} catch (ServiceException e) {
 			errorMessage = e.getMessage();
@@ -62,7 +62,7 @@ public class GradeController {
 			gradeValidator.gradeCheck(grade.toUpperCase());
 
 			// call Service class and get the result
-			list = userFeature.findByGradeService(grade.toUpperCase());
+			list = userService.findByGradeService(grade.toUpperCase());
 
 			status = "success";
 

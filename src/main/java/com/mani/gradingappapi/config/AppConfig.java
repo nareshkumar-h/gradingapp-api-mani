@@ -19,10 +19,6 @@ public class AppConfig {
 		return new AdminService();
 	}
 	@Bean
-	public UserService userFeature() {
-		return new UserService();
-	}
-	@Bean
 	public UserService userService() {
 		return new UserService();
 	}
