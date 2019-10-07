@@ -19,9 +19,9 @@ import com.revature.gradingsystem.validator.GradeValidator;
 public class GradeController {
 
 	@Autowired
-	UserService userFeature;
+	private UserService userFeature;
 	@Autowired
-	GradeValidator gradeValidator;
+	private GradeValidator gradeValidator;
 	
 	@GetMapping("gradeWiseList")
 	public String gradeWiseList() {

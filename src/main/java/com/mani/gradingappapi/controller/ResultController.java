@@ -17,7 +17,7 @@ import com.revature.gradingsystem.validator.StudentValidator;
 @RestController
 public class ResultController {
 	@Autowired
-	UserService userFeature;
+	private UserService userFeature;
 
 	@GetMapping("studentResult")
 	public String studentResult(@RequestParam("regno")int regno){

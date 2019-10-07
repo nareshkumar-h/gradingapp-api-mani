@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.revature.gradingsystem.service.AdminService;
 import com.revature.gradingsystem.service.UserService;
-import com.revature.gradingsystem.service.UserService;
 import com.revature.gradingsystem.validator.EmployeeValidator;
 import com.revature.gradingsystem.validator.GradeValidator;
 import com.revature.gradingsystem.validator.StudentValidator;

@@ -19,9 +19,9 @@ import com.revature.gradingsystem.validator.StudentValidator;
 @RestController
 public class MarkController {
 	@Autowired
-	StudentValidator studentValidate;
+	private StudentValidator studentValidate;
 	@Autowired
-	UserService userFeature;
+	private UserService userFeature;
 	
 	@GetMapping("updateMark")
 	public String updateMark(@RequestParam("regno")int regno, @RequestParam("mark1")int mark1, @RequestParam("mark2")int mark2, @RequestParam("mark3")int mark3, @RequestParam("mark4")int mark4, @RequestParam("mark5")int mark5) {

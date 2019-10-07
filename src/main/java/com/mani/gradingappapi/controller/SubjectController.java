@@ -16,7 +16,7 @@ import com.revature.gradingsystem.service.UserService;
 @RestController
 public class SubjectController {
 	@Autowired
-	UserService userFeature;
+	private UserService userFeature;
 	
 	@GetMapping("subjectWise")
 	public String subjectWiseRankHolder(@RequestParam("subjectCode")String subCode){

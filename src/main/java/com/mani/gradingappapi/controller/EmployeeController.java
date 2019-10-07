@@ -14,9 +14,9 @@ import com.revature.gradingsystem.service.UserService;
 @RestController
 public class EmployeeController {
 	@Autowired
-	AdminService adminService;
+	private AdminService adminService;
 	@Autowired
-	UserService UserService;
+	private UserService UserService;
 
 	@GetMapping("addEmployee")
 	public String addEmpolyee(@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("mobno")Long mobNo, @RequestParam("password")String password, @RequestParam("role")String role, @RequestParam("subject")String subject) {
