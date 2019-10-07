@@ -11,12 +11,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.revature.gradingsystem.exception.ServiceException;
 import com.revature.gradingsystem.model.StudentMark;
-import com.revature.gradingsystem.service.UserFeatureService;
+import com.revature.gradingsystem.service.UserService;
 
 @RestController
 public class SubjectController {
 	@Autowired
-	UserFeatureService userFeature;
+	private UserService userFeature;
 	
 	@GetMapping("subjectWise")
 	public String subjectWiseRankHolder(@RequestParam("subjectCode")String subCode){

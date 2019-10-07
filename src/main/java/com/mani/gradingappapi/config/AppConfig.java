@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.revature.gradingsystem.service.AdminService;
-import com.revature.gradingsystem.service.UserFeatureService;
 import com.revature.gradingsystem.service.UserService;
+import com.revature.gradingsystem.validator.EmployeeValidator;
 import com.revature.gradingsystem.validator.GradeValidator;
 import com.revature.gradingsystem.validator.StudentValidator;
 import com.revature.gradingsystem.validator.SubjectValidator;
@@ -19,8 +19,8 @@ public class AppConfig {
 		return new AdminService();
 	}
 	@Bean
-	public UserFeatureService userFeature() {
-		return new UserFeatureService();
+	public UserService userFeature() {
+		return new UserService();
 	}
 	@Bean
 	public UserService userService() {
@@ -43,5 +43,9 @@ public class AppConfig {
 	@Bean
 	public StudentValidator studentValidator() {
 		return new StudentValidator();
+	}
+	@Bean
+	public EmployeeValidator employeeValidator() {
+		return new EmployeeValidator();
 	}
 }

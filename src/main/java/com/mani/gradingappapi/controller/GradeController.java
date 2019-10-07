@@ -12,16 +12,16 @@ import com.revature.gradingsystem.dto.StudentGradeDTO;
 import com.revature.gradingsystem.exception.DBException;
 import com.revature.gradingsystem.exception.ServiceException;
 import com.revature.gradingsystem.exception.ValidatorException;
-import com.revature.gradingsystem.service.UserFeatureService;
+import com.revature.gradingsystem.service.UserService;
 import com.revature.gradingsystem.validator.GradeValidator;
 
 @RestController
 public class GradeController {
 
 	@Autowired
-	UserFeatureService userFeature;
+	private UserService userFeature;
 	@Autowired
-	GradeValidator gradeValidator;
+	private GradeValidator gradeValidator;
 	
 	@GetMapping("gradeWiseList")
 	public String gradeWiseList() {

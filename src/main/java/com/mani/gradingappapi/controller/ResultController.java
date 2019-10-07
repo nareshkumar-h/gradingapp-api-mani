@@ -11,13 +11,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.revature.gradingsystem.dto.StudentGradeDTO;
 import com.revature.gradingsystem.model.StudentMark;
-import com.revature.gradingsystem.service.UserFeatureService;
+import com.revature.gradingsystem.service.UserService;
 import com.revature.gradingsystem.validator.StudentValidator;
 
 @RestController
 public class ResultController {
 	@Autowired
-	UserFeatureService userFeature;
+	private UserService userFeature;
 
 	@GetMapping("studentResult")
 	public String studentResult(@RequestParam("regno")int regno){
