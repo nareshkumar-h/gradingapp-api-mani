@@ -3,11 +3,14 @@ package com.mani.gradingappapi.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.mani.gradingappapi.util.Message;
 import com.revature.gradingsystem.dto.StudentGradeDTO;
 import com.revature.gradingsystem.exception.DBException;
 import com.revature.gradingsystem.exception.ServiceException;
@@ -15,7 +18,12 @@ import com.revature.gradingsystem.exception.ValidatorException;
 import com.revature.gradingsystem.service.UserService;
 import com.revature.gradingsystem.validator.GradeValidator;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
+@RequestMapping("grade")
 public class GradeController {
 
 	@Autowired
@@ -23,8 +31,10 @@ public class GradeController {
 	@Autowired
 	private GradeValidator gradeValidator;
 	
-	@GetMapping("gradeWiseList")
-	public String gradeWiseList() {
+	@GetMapping("/gradeWiseList")
+	@ResponseStatus(code = HttpStatus.OK)
+	@ApiOperation(value = "Grade API")
+	public ResponseEntity<?> gradeWiseList() {
 	
 		List<StudentGradeDTO> list = null;
 		String errorMessage = "";
@@ -37,21 +47,20 @@ public class GradeController {
 			errorMessage = e.getMessage();
 		}
 	
-		String json = null;
 		if (status.equals("success")) {
-			// convert list to json
-			Gson gson = new Gson();
-			json = gson.toJson(list);
+			return new ResponseEntity<>(list, HttpStatus.OK );
 		} else {
-			JsonObject obj = new JsonObject();
-			obj.addProperty("errMessage", errorMessage);
-			json = obj.toString();
+			Message message = new Message(errorMessage);
+			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST );
 		}
-		return json;
 	}
 	
-	@GetMapping("SpecficGradeWiseList")
-	public String SpecficGradeWiseList(String grade) {
+	@GetMapping("/SpecficGradeWiseList")
+	//@ResponseStatus(code = HttpStatus.OK)
+	@ApiOperation(value = "Grade API")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = List.class),
+			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
+	public ResponseEntity<?> SpecficGradeWiseList(String grade) {
 		
 		List<StudentGradeDTO> list = null;
 		String errorMessage = "";
@@ -68,23 +77,17 @@ public class GradeController {
 
 		} catch (ServiceException e) {
 			errorMessage = e.getMessage();
-
 		} catch (ValidatorException e) {
 			errorMessage = e.getMessage();
 		}catch (DBException e) {
 			errorMessage = e.getMessage();
 		}
 
-		String json = null;
 		if (status.equals("success")) {
-			// convert list to json
-			Gson gson = new Gson();
-			json = gson.toJson(list);
+			return new ResponseEntity<>(list, HttpStatus.OK );
 		} else {
-			JsonObject obj = new JsonObject();
-			obj.addProperty("errMessage", errorMessage);
-			json = obj.toString();
+			Message message = new Message(errorMessage);
+			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST );
 		}
-		return json;
 	}
 }

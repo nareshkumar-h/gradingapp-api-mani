@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.JsonObject;
+import com.mani.gradingappapi.util.Message;
 import com.revature.gradingsystem.exception.ServiceException;
 import com.revature.gradingsystem.exception.ValidatorException;
 import com.revature.gradingsystem.model.StudentMark;
 import com.revature.gradingsystem.model.Subject;
 import com.revature.gradingsystem.service.UserService;
 import com.revature.gradingsystem.validator.StudentValidator;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 public class MarkController {
@@ -23,8 +29,12 @@ public class MarkController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("updateMark")
-	public String updateMark(@RequestParam("regno")int regno, @RequestParam("mark1")int mark1, @RequestParam("mark2")int mark2, @RequestParam("mark3")int mark3, @RequestParam("mark4")int mark4, @RequestParam("mark5")int mark5) {
+	@PutMapping("updateMark")
+	//@ResponseStatus(code = HttpStatus.CREATED)
+	@ApiOperation(value = "Mark API")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successfully updated mark", response = Message.class),
+			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
+	public ResponseEntity<?> updateMark(@RequestParam("regno")int regno, @RequestParam("mark1")int mark1, @RequestParam("mark2")int mark2, @RequestParam("mark3")int mark3, @RequestParam("mark4")int mark4, @RequestParam("mark5")int mark5) {
 		
 		StudentMark sm1 = new StudentMark();
 
@@ -83,19 +93,13 @@ public class MarkController {
 			errorMessage = e.getMessage();
 		}
 
-		String json = null;
-		// Gson gson = new Gson();
 		if (status.equals("Success")) {
-
-			JsonObject obj = new JsonObject();
-			obj.addProperty("responseMessage", "success");
-			json = obj.toString();
-
+			Message message = new Message(status);
+			return new ResponseEntity<>(message, HttpStatus.OK);
+			
 		} else {
-			JsonObject obj = new JsonObject();
-			obj.addProperty("responseMessage", errorMessage);
-			json = obj.toString();
-		}
-	return json;	
+			Message message = new Message(errorMessage);
+			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
+		}	
 	}
 }

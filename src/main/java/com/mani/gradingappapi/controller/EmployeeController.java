@@ -1,15 +1,22 @@
 package com.mani.gradingappapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.JsonObject;
+import com.mani.gradingappapi.util.Message;
 import com.revature.gradingsystem.exception.ServiceException;
 import com.revature.gradingsystem.model.UserDetails;
 import com.revature.gradingsystem.service.AdminService;
 import com.revature.gradingsystem.service.UserService;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 public class EmployeeController {
@@ -18,8 +25,12 @@ public class EmployeeController {
 	@Autowired
 	private UserService UserService;
 
-	@GetMapping("addEmployee")
-	public String addEmpolyee(@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("mobno")Long mobNo, @RequestParam("password")String password, @RequestParam("role")String role, @RequestParam("subject")String subject) {
+	@PostMapping("addEmployee")
+	//@ResponseStatus(code = HttpStatus.CREATED)
+	@ApiOperation(value = "Employee API")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "SuccessFully Updated", response = Message.class),
+			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
+	public ResponseEntity<?> addEmpolyee(@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("mobno")Long mobNo, @RequestParam("password")String password, @RequestParam("role")String role, @RequestParam("subject")String subject) {
 		
 		UserDetails userDetails = new UserDetails();
 		userDetails.setName(name);
@@ -37,25 +48,23 @@ public class EmployeeController {
 		} catch (ServiceException e) {
 			errorMessage = e.getMessage();
 		}
-
-		String json = null;
-		// Gson gson = new Gson();
+		
 		if (status.equals("Success")) {
-
-			JsonObject obj = new JsonObject();
-			obj.addProperty("responseMessage", "success");
-			json = obj.toString();
-
+			Message message = new Message(status);
+			return new ResponseEntity<>(message, HttpStatus.OK);
+			
 		} else {
-			JsonObject obj = new JsonObject();
-			obj.addProperty("responseMessage", errorMessage);
-			json = obj.toString();
+			Message message = new Message(errorMessage);
+			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
 		}
-	return json;	
 	}
 	
-	@GetMapping("updateEmployee")
-	public String updateEmpolyee(@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("mobno")Long mobNo, @RequestParam("password")String password, @RequestParam("role")String role, @RequestParam("subject")String subject) {
+	@PutMapping("updateEmployee")
+	//@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	@ApiOperation(value = "Employee API")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Logged In", response = Message.class),
+			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
+	public ResponseEntity<?> updateEmpolyee(@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("mobno")Long mobNo, @RequestParam("password")String password, @RequestParam("role")String role, @RequestParam("subject")String subject) {
 
 		UserDetails userDetails = new UserDetails();
 		userDetails.setName(name);
@@ -74,20 +83,13 @@ public class EmployeeController {
 			errorMessage = e.getMessage();
 		}
 	
-		String json = null;
-		// Gson gson = new Gson();
 		if (status.equals("Success")) {
-	
-			JsonObject obj = new JsonObject();
-			obj.addProperty("responseMessage", "success");
-			json = obj.toString();
-	
+			Message message = new Message(status);
+			return new ResponseEntity<>(message, HttpStatus.OK);
+			
 		} else {
-			JsonObject obj = new JsonObject();
-			obj.addProperty("responseMessage", errorMessage);
-			json = obj.toString();
+			Message message = new Message(errorMessage);
+			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
 		}
-	
-	return json;
 	}
 }
