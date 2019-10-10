@@ -3,12 +3,16 @@ package com.mani.gradingappapi.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.mani.gradingappapi.util.Message;
 import com.revature.gradingsystem.exception.DBException;
 import com.revature.gradingsystem.exception.ServiceException;
 import com.revature.gradingsystem.exception.ValidatorException;
@@ -16,15 +20,24 @@ import com.revature.gradingsystem.model.ScoreRange;
 import com.revature.gradingsystem.service.AdminService;
 import com.revature.gradingsystem.validator.GradeValidator;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
+@RequestMapping("score")
 public class ScoreController {
 	@Autowired
 	private GradeValidator gradeValidator;
 	@Autowired
 	private AdminService adminservice;
 	
-	@GetMapping("defineScore")
-	public String defineScore(@RequestParam("grade") String grade, @RequestParam("min") int min, @RequestParam("max") int max)
+	@GetMapping("/defineScore")
+	//@ResponseStatus ( code = HttpStatus.OK )
+	@ApiOperation(value = "Score API")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated score range", response = Message.class),
+			@ApiResponse(code = 201, message = "Invalid Credentials", response = Message.class) })
+	public ResponseEntity<?> defineScore(@RequestParam("grade") String grade, @RequestParam("min") int min, @RequestParam("max") int max)
 	{
 		String errorMessage = null;
 		String status = "";
@@ -40,43 +53,45 @@ public class ScoreController {
 			errorMessage = e.getMessage();
 		}
 
-		String json = null;
-		// Gson gson = new Gson();
 		if (status.equals("Success")) {
-
-			JsonObject obj = new JsonObject();
-			obj.addProperty("responseMessage", "success");
-			json = obj.toString();
-
+			Message message = new Message(status);
+			return new ResponseEntity<>(message, HttpStatus.OK);
+			
 		} else {
-			JsonObject obj = new JsonObject();
-			obj.addProperty("responseMessage", errorMessage);
-			json = obj.toString();
+			Message message = new Message(errorMessage);
+			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
 		}
-		
-		return json;
 	}
 	
-	@GetMapping("deleteScore")
-	public String deleteScore(){
+	@DeleteMapping("/deleteScore")
+	//@ResponseStatus ( code = HttpStatus.NO_CONTENT )
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully deleted", response = Message.class),
+			@ApiResponse(code = 204, message = "Invalid Credentials", response = Message.class) })
+	public ResponseEntity<?> deleteScore(){
 		
 		String status = "";
+		String errorMessage = "";
 		try {
 			adminservice.deleteScoreRangeService();
 			status = "Score Range Deleted..";
 		} catch (DBException e) {
-			status= e.getMessage();
+			errorMessage = e.getMessage();
 		}
 	
-			JsonObject obj = new JsonObject();
-			obj.addProperty("message", status);
-			String json = obj.toString();
+		if (status.equals("Success")) {
+			Message message = new Message(status);
+			return new ResponseEntity<>(message, HttpStatus.OK);
 			
-		return json;
+		} else {
+			Message message = new Message(errorMessage);
+			return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
+		}
 	}
 	
-	@GetMapping("viewScore")
-	public String viewScore()
+	@GetMapping("/viewScore")
+	@ResponseStatus ( code = HttpStatus.OK )
+	@ApiOperation(value = "Score API")
+	public ResponseEntity<?> viewScore()
 	{
 		List<ScoreRange> list = null;
 		String errorMessage = null;
@@ -88,18 +103,12 @@ public class ScoreController {
 		} catch (ServiceException e) {
 			errorMessage = e.getMessage();
 		}
-
-		String json = null;
-		if (status.equals("success")) {
-			// convert list to json
-			Gson gson = new Gson();
-			json = gson.toJson(list);
-		} else {
-			JsonObject obj = new JsonObject();
-			obj.addProperty("errMessage", errorMessage);
-			json = obj.toString();
-		}
 		
-		return json;
+		if (status.equals("success")) {
+			return new ResponseEntity<>(list, HttpStatus.OK );
+		} else {
+			Message message = new Message(errorMessage);
+			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST );
+		}
 	}
 }

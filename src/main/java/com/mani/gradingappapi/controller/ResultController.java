@@ -9,10 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mani.gradingappapi.util.Message;
 import com.revature.gradingsystem.dto.StudentGradeDTO;
 import com.revature.gradingsystem.model.StudentMark;
+import com.revature.gradingsystem.model.UserDetails;
 import com.revature.gradingsystem.service.UserService;
 import com.revature.gradingsystem.validator.StudentValidator;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 public class ResultController {
@@ -20,6 +26,10 @@ public class ResultController {
 	private UserService userService;
 
 	@GetMapping("studentResult")
+	//@ResponseStatus ( code = HttpStatus.OK)
+	@ApiOperation(value = "Result API")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated mark", response = UserDetails.class),
+			@ApiResponse(code = 201, message = "Invalid Credentials", response = Message.class) })
 	public String studentResult(@RequestParam("regno")int regno){
 		List<StudentMark> markList = null;
 		StudentGradeDTO studentResult = null;
