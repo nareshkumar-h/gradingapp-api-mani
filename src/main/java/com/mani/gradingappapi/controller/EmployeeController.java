@@ -28,7 +28,7 @@ public class EmployeeController {
 	@PostMapping("addEmployee")
 	//@ResponseStatus(code = HttpStatus.CREATED)
 	@ApiOperation(value = "Employee API")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "SuccessFully Updated", response = Message.class),
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "SuccessFully Updated", response = Message.class),
 			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
 	public ResponseEntity<?> addEmpolyee(@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("mobno")Long mobNo, @RequestParam("password")String password, @RequestParam("role")String role, @RequestParam("subject")String subject) {
 		
@@ -51,7 +51,7 @@ public class EmployeeController {
 		
 		if (status.equals("Success")) {
 			Message message = new Message(status);
-			return new ResponseEntity<>(message, HttpStatus.OK);
+			return new ResponseEntity<>(message, HttpStatus.CREATED);
 			
 		} else {
 			Message message = new Message(errorMessage);
