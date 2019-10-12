@@ -3,13 +3,13 @@ package com.mani.gradingappapi.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.revature.gradingsystem.service.AdminService;
-import com.revature.gradingsystem.service.UserService;
-import com.revature.gradingsystem.validator.EmployeeValidator;
-import com.revature.gradingsystem.validator.GradeValidator;
-import com.revature.gradingsystem.validator.StudentValidator;
-import com.revature.gradingsystem.validator.SubjectValidator;
-import com.revature.gradingsystem.validator.UserValidator;
+import com.mani.gradingappapi.service.AdminService;
+import com.mani.gradingappapi.service.UserService;
+import com.mani.gradingappapi.validator.EmployeeValidator;
+import com.mani.gradingappapi.validator.GradeValidator;
+import com.mani.gradingappapi.validator.StudentValidator;
+import com.mani.gradingappapi.validator.SubjectValidator;
+import com.mani.gradingappapi.validator.UserValidator;
 
 @Configuration
 public class AppConfig {

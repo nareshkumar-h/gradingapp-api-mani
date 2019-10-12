@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mani.gradingappapi.dto.StudentGradeDTO;
+import com.mani.gradingappapi.exception.DBException;
+import com.mani.gradingappapi.exception.ServiceException;
+import com.mani.gradingappapi.exception.ValidatorException;
+import com.mani.gradingappapi.service.UserService;
 import com.mani.gradingappapi.util.Message;
-import com.revature.gradingsystem.dto.StudentGradeDTO;
-import com.revature.gradingsystem.exception.DBException;
-import com.revature.gradingsystem.exception.ServiceException;
-import com.revature.gradingsystem.exception.ValidatorException;
-import com.revature.gradingsystem.service.UserService;
-import com.revature.gradingsystem.validator.GradeValidator;
+import com.mani.gradingappapi.validator.GradeValidator;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

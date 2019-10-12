@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mani.gradingappapi.dto.StudentGradeDTO;
+import com.mani.gradingappapi.model.StudentMark;
+import com.mani.gradingappapi.service.UserService;
 import com.mani.gradingappapi.util.Message;
 import com.mani.gradingappapi.util.ResultResponseDto;
-import com.revature.gradingsystem.dto.StudentGradeDTO;
-import com.revature.gradingsystem.model.StudentMark;
-import com.revature.gradingsystem.service.UserService;
-import com.revature.gradingsystem.validator.StudentValidator;
+import com.mani.gradingappapi.validator.StudentValidator;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
