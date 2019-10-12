@@ -2,8 +2,8 @@ package com.mani.gradingappapi.util;
 
 import java.util.List;
 
-import com.revature.gradingsystem.dto.StudentGradeDTO;
-import com.revature.gradingsystem.model.StudentMark;
+import com.mani.gradingappapi.dto.StudentGradeDTO;
+import com.mani.gradingappapi.model.StudentMark;
 
 public class ResultResponseDto {
 

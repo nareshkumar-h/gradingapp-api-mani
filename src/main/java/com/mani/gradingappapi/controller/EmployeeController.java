@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mani.gradingappapi.exception.ServiceException;
+import com.mani.gradingappapi.model.UserDetails;
+import com.mani.gradingappapi.service.AdminService;
+import com.mani.gradingappapi.service.UserService;
 import com.mani.gradingappapi.util.Message;
-import com.revature.gradingsystem.exception.ServiceException;
-import com.revature.gradingsystem.model.UserDetails;
-import com.revature.gradingsystem.service.AdminService;
-import com.revature.gradingsystem.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -23,7 +23,7 @@ public class EmployeeController {
 	@Autowired
 	private AdminService adminService;
 	@Autowired
-	private UserService UserService;
+	private UserService userService;
 
 	@PostMapping("addEmployee")
 	//@ResponseStatus(code = HttpStatus.CREATED)
@@ -38,7 +38,6 @@ public class EmployeeController {
 		userDetails.setMobno(mobNo);
 		userDetails.setPassword(password);
 		userDetails.setRole(role);
-		userDetails.setSubject(subject);
 		
 		String errorMessage = null;
 		String status = "";
@@ -77,7 +76,7 @@ public class EmployeeController {
 		String errorMessage = null;
 		String status = "";
 		try {
-			UserService.updateEmployeeService(userDetails);
+			userService.updateEmployeeService(userDetails);
 			status = "Success";
 		} catch (ServiceException e) {
 			errorMessage = e.getMessage();

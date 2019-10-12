@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mani.gradingappapi.exception.ServiceException;
+import com.mani.gradingappapi.exception.ValidatorException;
+import com.mani.gradingappapi.model.StudentMark;
+import com.mani.gradingappapi.model.Subject;
+import com.mani.gradingappapi.service.UserService;
 import com.mani.gradingappapi.util.Message;
-import com.revature.gradingsystem.exception.ServiceException;
-import com.revature.gradingsystem.exception.ValidatorException;
-import com.revature.gradingsystem.model.StudentMark;
-import com.revature.gradingsystem.model.Subject;
-import com.revature.gradingsystem.service.UserService;
-import com.revature.gradingsystem.validator.StudentValidator;
+import com.mani.gradingappapi.validator.StudentValidator;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

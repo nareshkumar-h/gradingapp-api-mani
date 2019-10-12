@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mani.gradingappapi.model.UserDetails;
 import com.mani.gradingappapi.util.Message;
-import com.revature.gradingsystem.exception.ServiceException;
-import com.revature.gradingsystem.exception.ValidatorException;
-import com.revature.gradingsystem.model.UserDetails;
-import com.revature.gradingsystem.service.UserService;
-import com.revature.gradingsystem.validator.UserValidator;
+import com.mani.gradingappapi.exception.ServiceException;
+import com.mani.gradingappapi.exception.ValidatorException;
+import com.mani.gradingappapi.service.UserService;
+import com.mani.gradingappapi.validator.UserValidator;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -36,14 +36,16 @@ public class UserController {
 		String errMessage = "";
 		
 		try {
-			uservalidator.userInput(name, password);
-			userdetail = userservice.userLogin(name, password);
+				uservalidator.userInput(name, password);
+				userdetail = userservice.userLogin(name,password);
 			
 		} catch (ValidatorException e) {
 			errMessage = e.getMessage();
-		} catch (ServiceException e) {
+		}catch (ServiceException e) {
+			e.printStackTrace();
 			errMessage = e.getMessage();
-		} 
+		}
+			 
 		if(userdetail == null){
 			Message message = new Message(errMessage);
 			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);

@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mani.gradingappapi.exception.ServiceException;
+import com.mani.gradingappapi.model.StudentMark;
+import com.mani.gradingappapi.service.UserService;
 import com.mani.gradingappapi.util.Message;
-import com.revature.gradingsystem.exception.ServiceException;
-import com.revature.gradingsystem.model.StudentMark;
-import com.revature.gradingsystem.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
