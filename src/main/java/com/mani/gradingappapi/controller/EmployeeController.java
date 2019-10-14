@@ -25,7 +25,7 @@ public class EmployeeController {
 	@Autowired
 	private UserService userService;
 
-	@PostMapping("addEmployee")
+	@PostMapping("admin/addEmployee")
 	//@ResponseStatus(code = HttpStatus.CREATED)
 	@ApiOperation(value = "Employee API")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "SuccessFully Updated", response = Message.class),
@@ -58,7 +58,7 @@ public class EmployeeController {
 		}
 	}
 	
-	@PutMapping("updateEmployee")
+	@PutMapping("user/updateEmployee")
 	//@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Employee API")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Logged In", response = Message.class),
