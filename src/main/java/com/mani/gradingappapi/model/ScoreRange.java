@@ -1,27 +1,28 @@
 package com.mani.gradingappapi.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "score_range")
 public class ScoreRange {
 
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@Column(name= "grade")
 	private String grade;
+	
+	@Column(name= "min")
 	private int min;
+	
+	@Column(name= "max")
 	private int max;
 	
-	public String getGrade() {
-		return grade;
-	}
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
-	public int getMin() {
-		return min;
-	}
-	public void setMin(int min) {
-		this.min = min;
-	}
-	public int getMax() {
-		return max;
-	}
-	public void setMax(int max) {
-		this.max = max;
-	}
 }

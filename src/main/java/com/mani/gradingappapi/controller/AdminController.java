@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mani.gradingappapi.util.Message;
 import com.mani.gradingappapi.exception.ServiceException;
-import com.mani.gradingappapi.exception.ValidatorException;
 import com.mani.gradingappapi.model.UserDetails;
 import com.mani.gradingappapi.service.AdminService;
-import com.mani.gradingappapi.validator.UserValidator;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -20,8 +18,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 public class AdminController {
-	@Autowired
-	private UserValidator userValidator;
+	
 	@Autowired
 	private AdminService adminService;
 	
@@ -36,12 +33,9 @@ public class AdminController {
 		String errMessage = "";
 		
 		try {
-			userValidator.userInput(name, password);
+			
 			userdetail = adminService.adminLogin(name, password);
 			
-		} catch (ValidatorException e) {
-			e.printStackTrace();
-			errMessage = e.getMessage();
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			errMessage = e.getMessage();

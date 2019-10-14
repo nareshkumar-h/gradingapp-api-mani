@@ -12,13 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mani.gradingappapi.exception.DBException;
 import com.mani.gradingappapi.exception.ServiceException;
-import com.mani.gradingappapi.exception.ValidatorException;
 import com.mani.gradingappapi.model.ScoreRange;
 import com.mani.gradingappapi.service.AdminService;
 import com.mani.gradingappapi.util.Message;
-import com.mani.gradingappapi.validator.GradeValidator;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -27,8 +24,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("score")
 public class ScoreController {
-	@Autowired
-	private GradeValidator gradeValidator;
+	
 	@Autowired
 	private AdminService adminservice;
 	
@@ -42,14 +38,11 @@ public class ScoreController {
 		String errorMessage = null;
 		String status = "";
 		try {
-			gradeValidator.isGradeExist(grade.toUpperCase(), min, max);
 
-			adminservice.updateScoreRangeService(grade.toUpperCase(), min, max);
+			adminservice.defineScoreRangeService(grade.toUpperCase(), min, max);
 
 			status = "Success";
 		} catch (ServiceException e) {
-			errorMessage = e.getMessage();
-		} catch (ValidatorException e) {
 			errorMessage = e.getMessage();
 		}
 
@@ -76,7 +69,7 @@ public class ScoreController {
 		try {
 			adminservice.deleteScoreRangeService();
 			status = "Score Range Deleted..";
-		} catch (DBException e) {
+		} catch (ServiceException e) {
 			errorMessage = e.getMessage();
 		}
 	
