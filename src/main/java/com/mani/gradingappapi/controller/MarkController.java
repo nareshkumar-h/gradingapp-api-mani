@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 public class MarkController {
 	@Autowired
-	private StudentValidator studentValidate;
+	private StudentValidator studentValidator;
 	@Autowired
 	private UserService userService;
 	
@@ -81,7 +81,7 @@ public class MarkController {
 		String errorMessage = null;
 		String status = "";
 		try {
-			studentValidate.isRegnoUpdated(regno);
+			studentValidator.isRegnoUpdated(regno);
 
 			userService.updateMarksAndGradeService(regno, list);
 

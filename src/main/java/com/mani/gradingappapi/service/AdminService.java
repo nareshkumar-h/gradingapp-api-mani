@@ -2,6 +2,8 @@ package com.mani.gradingappapi.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import com.mani.gradingappapi.exception.ValidatorException;
 import com.mani.gradingappapi.model.ScoreRange;
 import com.mani.gradingappapi.model.UserDetails;
 import com.mani.gradingappapi.repository.AdminRepository;
+import com.mani.gradingappapi.repository.ScoreRepository;
 import com.mani.gradingappapi.repository.UserRepository;
 import com.mani.gradingappapi.util.MessageConstant;
 import com.mani.gradingappapi.validator.EmployeeValidator;
@@ -22,11 +25,16 @@ import com.mani.gradingappapi.dao.AdminDaoImpl;
 @Service
 public class AdminService {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(AdminService.class);
+	
 	@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
 	private AdminRepository adminRepository;
+	
+	@Autowired
+	private ScoreRepository scoreRepository;
 	
 	@Autowired
 	private EmployeeValidator employeeValidator;
@@ -36,6 +44,9 @@ public class AdminService {
 	
 	@Autowired
 	private GradeValidator gradeValidator;
+	
+	@Autowired
+	private ScoreRange scoreRange;
 
 	public UserDetails adminLogin(String name, String pwd) throws ServiceException {
 		
@@ -50,6 +61,7 @@ public class AdminService {
 				throw new ServiceException(MessageConstant.INVALID_INPUT);
 			}
 		} catch (ValidatorException e) {
+			LOGGER.error("Exception:", e);
 			throw new ServiceException(e.getMessage());
 		}
 		
@@ -61,10 +73,8 @@ public class AdminService {
 
 		try {
 			employeeValidator.addedEmployeeValidation(user);
-//			final EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
-//			employeeDao.addEmployee(user);
 			
-			adminRepository.insertEmployee(user);
+			adminRepository.save(user);
 		} catch (DBException e) {
 			throw new ServiceException(e.getMessage());
 		}catch (ValidatorException e) {
@@ -78,7 +88,11 @@ public class AdminService {
 			
 			gradeValidator.isGradeExist(grade, min, max);
 			
-			adminRepository.defineScore(grade, min, max);
+			scoreRange.setGrade(grade);
+			scoreRange.setMax(max);
+			scoreRange.setMin(min);
+			
+			scoreRepository.save(scoreRange);
 			
 			
 		} catch (ValidatorException e) {
@@ -103,7 +117,7 @@ public class AdminService {
 
 		List<ScoreRange> list = null;
 		
-			list = adminRepository.viewScore();
+			list = scoreRepository.findAll();
 			
 			if( list == null )
 				throw new ServiceException(MessageConstant.UNABLE_TO_DELETE_SCORE);

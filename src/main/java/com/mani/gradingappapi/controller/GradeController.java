@@ -34,6 +34,8 @@ public class GradeController {
 	@GetMapping("/gradeWiseList")
 	@ResponseStatus(code = HttpStatus.OK)
 	@ApiOperation(value = "Grade API")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = List.class),
+			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
 	public ResponseEntity<?> gradeWiseList() {
 	
 		List<StudentGradeDTO> list = null;

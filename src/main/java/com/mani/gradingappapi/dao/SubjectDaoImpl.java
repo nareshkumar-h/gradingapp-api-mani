@@ -28,7 +28,7 @@ public class SubjectDaoImpl {
 			list = new ArrayList<Subject>();
 			while (rs.next()) {
 
-				list.add(new Subject(rs.getInt("id"), rs.getString("sub_code"), rs.getString("subject_name")));
+				list.add(new Subject().setId(rs.getInt("id")), new Subject().setCode(rs.getString("sub_code")), new Subject().setName(rs.getString("subject_name")));
 
 			}
 		} catch (SQLException e) {
@@ -38,5 +38,4 @@ public class SubjectDaoImpl {
 		}
 		return list;
 	}
-
 }

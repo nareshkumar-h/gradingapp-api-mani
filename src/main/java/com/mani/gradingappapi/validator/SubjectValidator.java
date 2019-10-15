@@ -27,14 +27,4 @@ public class SubjectValidator {
 		}	
 	}
 
-	public List<Subject> findAllSubject() throws DBException {
-
-		List<Subject> subjects = null;
-		try {
-			subjects = new SubjectDaoImpl().findAll();
-		} catch (DBException e) {
-			throw new DBException(e.getMessage());
-		}
-		return subjects;
-	}
 }

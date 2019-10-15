@@ -7,11 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name="app_users")
+@Component
 public class UserDetails {
 	
 	@Id
