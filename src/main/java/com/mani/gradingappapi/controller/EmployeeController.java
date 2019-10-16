@@ -38,7 +38,7 @@ public class EmployeeController {
 		userDetails.setMobno(mobNo);
 		userDetails.setPassword(password);
 		userDetails.setRole(role);
-		
+		userDetails.setSubject(subject);
 		String errorMessage = null;
 		String status = "";
 		try {

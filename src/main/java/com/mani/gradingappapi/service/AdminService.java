@@ -72,6 +72,7 @@ public class AdminService {
 	public void addEmployeeService(UserDetails user) throws ServiceException {
 
 		try {
+			System.out.println(user);
 			employeeValidator.addedEmployeeValidation(user);
 			
 			adminRepository.save(user);

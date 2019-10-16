@@ -79,7 +79,7 @@ public class UserService {
 	}
 
 	public void updateEmployeeService(UserDetails user) throws ServiceException{
-		
+			System.out.println(user);
 			adminRepository.saveByEmail(user.getName(), user.getMobno(), user.getPassword(), user.getRole(), user.getSubject(), user.getEmail());
 		
 	}

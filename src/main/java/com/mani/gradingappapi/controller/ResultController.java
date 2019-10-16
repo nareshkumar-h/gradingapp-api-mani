@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mani.gradingappapi.dto.StudentGradeDTO;
+import com.mani.gradingappapi.model.StudentDetail;
 import com.mani.gradingappapi.model.StudentMark;
 import com.mani.gradingappapi.service.UserService;
 import com.mani.gradingappapi.util.Message;
@@ -33,7 +34,7 @@ public class ResultController {
 	public ResponseEntity<?> studentResult(@RequestParam("regno")int regno){
 		List<StudentMark> markList = null;
 		StudentGradeDTO studentResult = null;
-		
+		StudentDetail studentDetail = null;
 		try {
 			
 			// Reg-No validator
@@ -45,6 +46,10 @@ public class ResultController {
 			
 			//get the Marks and Sub-Code
 			markList = userService.getStudentMarks(regno);
+			
+			for (StudentMark studentMark : markList) {
+				studentDetail = studentMark.getStudentDetail();
+			}
 			
 			ResultResponseDto result = new ResultResponseDto(markList, studentResult);
 			//json = "{\"marks\"" +":"+ "" + json1+ ", \"SD\""+":" + "" + json2+ "}"; 
