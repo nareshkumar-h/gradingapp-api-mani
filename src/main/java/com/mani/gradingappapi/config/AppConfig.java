@@ -3,8 +3,6 @@ package com.mani.gradingappapi.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.mani.gradingappapi.service.AdminService;
-import com.mani.gradingappapi.service.UserService;
 import com.mani.gradingappapi.validator.EmployeeValidator;
 import com.mani.gradingappapi.validator.GradeValidator;
 import com.mani.gradingappapi.validator.StudentValidator;
@@ -14,14 +12,6 @@ import com.mani.gradingappapi.validator.UserValidator;
 @Configuration
 public class AppConfig {
 
-	@Bean
-	public AdminService adminService() {
-		return new AdminService();
-	}
-	@Bean
-	public UserService userService() {
-		return new UserService();
-	}
 	
 	@Bean
 	public UserValidator userValidator() {

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +35,8 @@ public class GradeController {
 	@GetMapping("/gradeWiseList")
 	@ResponseStatus(code = HttpStatus.OK)
 	@ApiOperation(value = "Grade API")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = List.class),
+			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
 	public ResponseEntity<?> gradeWiseList() {
 	
 		List<StudentGradeDTO> list = null;
@@ -60,7 +63,7 @@ public class GradeController {
 	@ApiOperation(value = "Grade API")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = List.class),
 			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
-	public ResponseEntity<?> SpecficGradeWiseList(String grade) {
+	public ResponseEntity<?> SpecficGradeWiseList(@RequestParam("grade") String grade) {
 		
 		List<StudentGradeDTO> list = null;
 		String errorMessage = "";

@@ -1,57 +1,42 @@
 package com.mani.gradingappapi.model;
 
-import com.mani.gradingappapi.dto.StudentGradeDTO;
+import java.io.Serializable;
 
-public class StudentMark {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "student_marks")
+public class StudentMark implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private Integer id;
 	
-	private StudentDetail studentDetail;
-
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="subject_code",referencedColumnName = "sub_code")
 	private Subject subject;
 	
+	@Column(name="marks")
 	private Integer mark;
 	
-	private StudentGradeDTO studentGradeDTO;
-	
-	public StudentGradeDTO getStudentGradeDTO() {
-		return studentGradeDTO;
-	}
-
-	public void setStudentGradeDTO(StudentGradeDTO studentGradeDTO) {
-		this.studentGradeDTO = studentGradeDTO;
-	}
-
-	public Subject getSubject() {
-		return subject;
-	}
-
-	public void setSubject(Subject subject) {
-		this.subject = subject;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public StudentDetail getStudentDetail() {
-		return studentDetail;
-	}
-
-	public void setStudentDetail(StudentDetail studentDetail) {
-		this.studentDetail = studentDetail;
-	}
-
-	public Integer getMark() {
-		return mark;
-	}
-
-	public void setMark(Integer mark) {
-		this.mark = mark;
-	}
-
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="reg_no", referencedColumnName = "reg_no")
+	private StudentDetail studentDetail;
 }
