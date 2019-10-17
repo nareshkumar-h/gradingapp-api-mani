@@ -27,8 +27,11 @@ public class SubjectDaoImpl {
 			rs = pst.executeQuery();
 			list = new ArrayList<Subject>();
 			while (rs.next()) {
-
-				list.add(new Subject().setId(rs.getInt("id")), new Subject().setCode(rs.getString("sub_code")), new Subject().setName(rs.getString("subject_name")));
+				Subject sub = new Subject();
+				sub.setId(rs.getInt("id"));
+				sub.setCode(rs.getString("sub_code"));
+				sub.setName(rs.getString("subject_name"));
+				list.add(sub);
 
 			}
 		} catch (SQLException e) {
