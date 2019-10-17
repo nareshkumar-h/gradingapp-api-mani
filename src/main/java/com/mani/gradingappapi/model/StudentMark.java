@@ -37,6 +37,8 @@ public class StudentMark implements Serializable {
 	private Integer mark;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
+	
+	
 	@JoinColumn(name="reg_no", referencedColumnName = "reg_no")
 	private StudentDetail studentDetail;
 }

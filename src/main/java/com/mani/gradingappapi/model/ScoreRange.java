@@ -14,11 +14,12 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "score_range")
-@Component
 public class ScoreRange {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	private int id;
+	
 	@Column(name= "grade")
 	private String grade;
 	

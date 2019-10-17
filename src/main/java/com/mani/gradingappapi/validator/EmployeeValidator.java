@@ -14,16 +14,12 @@ public class EmployeeValidator {
 
 	private final ValidatorDao validatordao= new ValidatorDaoImpl();
 	
-	private Pattern pattern;
     private Matcher matcher;
     private static final String PASSWORD_PATTERN = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{6,20})";
-    private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"; 
+    private static final String EMAIL_REGEX = "^[a-zA-Z_+&*-]+(?:\\.[a-zA-Z_+&*-]+)*@(?:[a-zA-Z-]+\\.)+[a-zA-Z]{2,7}$"; 
     
-    public EmployeeValidator() {
-        pattern = Pattern.compile(PASSWORD_PATTERN);
-    }
-	
     public boolean validate(final String password) {
+    	Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
         matcher = pattern.matcher(password);
         return matcher.matches();
     }
@@ -42,9 +38,9 @@ public class EmployeeValidator {
 			throw new ValidatorException("Invalid Name");
 		} 
 			
-		Boolean valid = isValid(user.getEmail());
-		if ( valid == false ) 
-			throw new ValidatorException("Invalid Mail Id");
+//		Boolean valid = isValid(user.getEmail());
+//		if ( valid == false ) 
+//			throw new ValidatorException("Invalid Mail Id");
 			
 		try {
 			String email = validatordao.findByEmail(user.getEmail());
@@ -69,7 +65,7 @@ public class EmployeeValidator {
 		if ( !res )
 			throw new ValidatorException("Password must contain at least one number, one uppercase, one lowercase and at least 8 or more characters"); 
 		   
-		if (user.getRole() == null || "".equals(user.getRole().trim()) || user.getRole().length() != 1) 
+		if (user.getRole() == null || "".equals(user.getRole().trim())) 
 			throw new ValidatorException("Invalid Role");
 			
 		}

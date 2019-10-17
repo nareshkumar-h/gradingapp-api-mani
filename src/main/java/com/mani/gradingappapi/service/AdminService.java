@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mani.gradingappapi.exception.DBException;
 import com.mani.gradingappapi.exception.ServiceException;
@@ -45,8 +46,7 @@ public class AdminService {
 	@Autowired
 	private GradeValidator gradeValidator;
 	
-	@Autowired
-	private ScoreRange scoreRange;
+	
 
 	public UserDetails adminLogin(String name, String pwd) throws ServiceException {
 		
@@ -83,15 +83,19 @@ public class AdminService {
 		}
 	}
 
+	@Transactional
 	public void defineScoreRangeService(String grade, int min, int max) throws ServiceException{
 		
 		try {
 			
 			gradeValidator.isGradeExist(grade, min, max);
-			
+		
+			ScoreRange scoreRange = new ScoreRange();
 			scoreRange.setGrade(grade);
 			scoreRange.setMax(max);
 			scoreRange.setMin(min);
+			
+			System.out.println(scoreRange);
 			
 			scoreRepository.save(scoreRange);
 			
