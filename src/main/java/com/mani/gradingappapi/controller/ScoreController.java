@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mani.gradingappapi.dto.GradeDTO;
 import com.mani.gradingappapi.exception.ServiceException;
 import com.mani.gradingappapi.model.ScoreRange;
 import com.mani.gradingappapi.service.AdminService;
@@ -28,18 +28,19 @@ public class ScoreController {
 	@Autowired
 	private AdminService adminservice;
 	
-	@GetMapping("/defineScore")
+	@PostMapping("/defineScore")
 	//@ResponseStatus ( code = HttpStatus.OK )
 	@ApiOperation(value = "Score API")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated score range", response = Message.class),
 			@ApiResponse(code = 201, message = "Invalid Credentials", response = Message.class) })
-	public ResponseEntity<?> defineScore(@RequestParam("grade") String grade, @RequestParam("min") int min, @RequestParam("max") int max)
+	public ResponseEntity<?> defineScore(GradeDTO gradeDTO)
 	{
 		String errorMessage = null;
 		String status = "";
 		try {
+			System.out.println("Grade:" + gradeDTO);
 
-			adminservice.defineScoreRangeService(grade.toUpperCase(), min, max);
+			adminservice.defineScoreRangeService(gradeDTO.getGrade().toUpperCase(), gradeDTO.getMin(), gradeDTO.getMax());
 
 			status = "Success";
 		} catch (ServiceException e) {

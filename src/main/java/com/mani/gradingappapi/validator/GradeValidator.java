@@ -13,6 +13,7 @@ public class GradeValidator {
 
 public void isGradeExist(String grade, int min, int max) throws ValidatorException{
 		
+	System.out.println(grade);
 		if (grade == null || "".equals(grade.trim()) || grade.length() != 1) 
 			throw new ValidatorException("Invalid grade, Please try again");
 		

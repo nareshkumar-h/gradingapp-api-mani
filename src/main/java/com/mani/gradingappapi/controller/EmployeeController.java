@@ -30,15 +30,8 @@ public class EmployeeController {
 	@ApiOperation(value = "Employee API")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "SuccessFully Updated", response = Message.class),
 			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
-	public ResponseEntity<?> addEmpolyee(@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("mobno")Long mobNo, @RequestParam("password")String password, @RequestParam("role")String role, @RequestParam("subject")String subject) {
+	public ResponseEntity<?> addEmpolyee(UserDetails userDetails) {
 		
-		UserDetails userDetails = new UserDetails();
-		userDetails.setName(name);
-		userDetails.setEmail(email);
-		userDetails.setMobno(mobNo);
-		userDetails.setPassword(password);
-		userDetails.setRole(role);
-		userDetails.setSubject(subject);
 		String errorMessage = null;
 		String status = "";
 		try {
