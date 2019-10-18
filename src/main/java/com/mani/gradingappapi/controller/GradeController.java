@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mani.gradingappapi.dto.StudentGradeDTO;
-import com.mani.gradingappapi.exception.DBException;
 import com.mani.gradingappapi.exception.ServiceException;
 import com.mani.gradingappapi.exception.ValidatorException;
 import com.mani.gradingappapi.service.UserService;
@@ -78,13 +77,11 @@ public class GradeController {
 
 			status = "success";
 
-		} catch (ServiceException e) {
-			errorMessage = e.getMessage();
 		} catch (ValidatorException e) {
 			errorMessage = e.getMessage();
-		}catch (DBException e) {
+		}catch (ServiceException e) {
 			errorMessage = e.getMessage();
-		}
+		} 
 
 		if (status.equals("success")) {
 			return new ResponseEntity<>(list, HttpStatus.OK );

@@ -51,12 +51,38 @@ public class EmployeeController {
 		}
 	}
 	
+	@PostMapping("admin/employeeSubject")
+	//@ResponseStatus(code = HttpStatus.CREATED)
+	@ApiOperation(value = "Employee API")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "SuccessFully Updated", response = Message.class),
+			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
+	public ResponseEntity<?> updateEmpolyeeSubject(@RequestParam("uid")int userId, @RequestParam("sid")int subjectId) {
+		
+		String errorMessage = null;
+		String status = "";
+		try {
+			adminService.updateEmpolyeeSubjectService(userId, subjectId );
+			status = "Success";
+		} catch (ServiceException e) {
+			errorMessage = e.getMessage();
+		}
+		
+		if (status.equals("Success")) {
+			Message message = new Message(status);
+			message.setInfoMessage(status);
+			return new ResponseEntity<>(message, HttpStatus.CREATED);
+			
+		} else {
+			Message message = new Message(errorMessage);
+			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
+		}
+	}
 	@PutMapping("user/updateEmployee")
 	//@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Employee API")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Logged In", response = Message.class),
 			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
-	public ResponseEntity<?> updateEmpolyee(@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("mobno")Long mobNo, @RequestParam("password")String password, @RequestParam("role")String role, @RequestParam("subject")String subject) {
+	public ResponseEntity<?> updateEmpolyee(@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("mobno")Long mobNo, @RequestParam("password")String password, @RequestParam("role")String role) {
 
 		UserDetails userDetails = new UserDetails();
 		userDetails.setName(name);
@@ -64,7 +90,6 @@ public class EmployeeController {
 		userDetails.setMobno(mobNo);
 		userDetails.setPassword(password);
 		userDetails.setRole(role);
-		userDetails.setSubject(subject);
 		
 		String errorMessage = null;
 		String status = "";

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mani.gradingappapi.exception.ServiceException;
 import com.mani.gradingappapi.model.StudentMark;
+import com.mani.gradingappapi.model.Subject;
 import com.mani.gradingappapi.service.UserService;
 import com.mani.gradingappapi.util.Message;
 
@@ -46,5 +47,18 @@ public class SubjectController {
 			Message message = new Message(errorMessage);
 			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST );
 		}	
+	}
+	
+	@GetMapping("subjectList")
+	//@ResponseStatus ( code = HttpStatus.OK )
+	@ApiOperation(value = "Subject API")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = List.class) })
+	public ResponseEntity<?> subjectList(){
+		
+		List<Subject> list = null;
+		
+			list = userFeature.subjectListService();
+
+		return new ResponseEntity<>(list, HttpStatus.OK );
 	}
 }

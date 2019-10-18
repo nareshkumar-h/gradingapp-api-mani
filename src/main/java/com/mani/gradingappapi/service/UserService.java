@@ -55,9 +55,9 @@ public class UserService {
 	@Autowired
 	private SubjectRepository subjectRepository;
 	
+	final String role = "T";
+	
 	public UserDetails userLogin(String name, String password) throws ServiceException {
-		
-		final String role = "T";
 		
 		UserDetails userdetail = null;
 		
@@ -80,7 +80,7 @@ public class UserService {
 
 	public void updateEmployeeService(UserDetails user) throws ServiceException{
 			System.out.println(user);
-			adminRepository.saveByEmail(user.getName(), user.getMobno(), user.getPassword(), user.getRole(), user.getSubject(), user.getEmail());
+			adminRepository.saveByEmail(user.getName(), user.getMobno(), user.getPassword(), user.getRole(), user.getEmail());
 		
 	}
 
@@ -163,14 +163,32 @@ public class UserService {
 		
 			specificGradeList = gradeRepository.findByGrade(grade);
 		
-			if (specificGradeList == null)
-				throw new ServiceException(MessageConstant.UNABLE_TO_GET_RECORDS);
-
 			for (Grade studentGrade : specificGradeList) {
 				StudentGradeDTO dto = toStudentGradeDTO(studentGrade);
+				
+//				if ( dto == null )
+//					throw new ServiceException(MessageConstant.NO_RECORDS_AVAILABLE);
 				
 				dtoList.add(dto);
 			}
 		return dtoList;
+	}
+
+	public List<UserDetails> listOfUser() {
+
+		List<UserDetails> list = new ArrayList<UserDetails>();
+		list = userRepository.findByRole(role);
+		
+		return list;
+		
+	}
+
+	public List<Subject> subjectListService() {
+
+		List<Subject> list = new ArrayList<Subject>();
+		
+		list = subjectRepository.findAll();
+		
+		return list;
 	}
 }

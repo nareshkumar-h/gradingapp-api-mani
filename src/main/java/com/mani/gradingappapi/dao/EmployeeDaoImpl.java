@@ -18,14 +18,13 @@ public class EmployeeDaoImpl {
 		int rows = 0;
 		try {
 			con = ConnectionUtil.getConnection();
-			String sql = "insert into app_users ( name, email, mob_no, password, role, subject ) values (?,?,?,?,?,?)";
+			String sql = "insert into app_users ( name, email, mob_no, password, role ) values (?,?,?,?,?,?)";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, user.getName());
 			pst.setString(2, user.getEmail());
 			pst.setLong(3, user.getMobno());
 			pst.setString(4, user.getPassword());
 			pst.setString(5, user.getRole());
-			pst.setString(6, user.getSubject());
 			
 			rows = pst.executeUpdate();
 
@@ -44,13 +43,12 @@ public class EmployeeDaoImpl {
 		int rows = 0;
 		try {
 			con = ConnectionUtil.getConnection();
-			String sql = "update app_users set name = ?, mob_no = ?, password = ?, role= ?, subject = ? where email = ?";
+			String sql = "update app_users set name = ?, mob_no = ?, password = ?, role= ? where email = ?";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, user.getName());
 			pst.setLong(2, user.getMobno());
 			pst.setString(3, user.getPassword());
 			pst.setString(4, user.getRole());
-			pst.setString(5, user.getSubject());
 			pst.setString(6, user.getEmail());
 			
 			rows = pst.executeUpdate();

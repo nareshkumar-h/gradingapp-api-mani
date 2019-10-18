@@ -19,7 +19,7 @@ public interface MessageConstant {
 	
 	public static final String UNABLE_TO_CHECK = "Unable to Check";
 	
-	public static final String UNABLE_TO_GET_RECORDS = "Unable to get the records";
+	public static final String NO_RECORDS_AVAILABLE = "Grade doesn't exist";
 	
 	//StudentGradeDao
 	public static final String UNABLE_TO_INSERT_GRADE = "Unable to update the grade";

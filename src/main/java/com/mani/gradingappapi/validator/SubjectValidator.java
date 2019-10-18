@@ -2,12 +2,17 @@ package com.mani.gradingappapi.validator;
 
 import java.util.List;
 
-import com.mani.gradingappapi.dao.SubjectDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.mani.gradingappapi.exception.DBException;
 import com.mani.gradingappapi.exception.ValidatorException;
 import com.mani.gradingappapi.model.Subject;
+import com.mani.gradingappapi.repository.SubjectRepository;
 
 public class SubjectValidator {
+	
+	@Autowired
+	private SubjectRepository subjectRepository;
 
 	public void subjectWiseRankHolder(String subCode) throws ValidatorException, DBException {
 
@@ -15,11 +20,9 @@ public class SubjectValidator {
 			throw new ValidatorException("Invalid Subject Code");
 		
 		List<Subject> subjectsList = null;
-		try {
-			subjectsList = new SubjectDaoImpl().findAll();
-		} catch (DBException e) {
-			throw new DBException(e.getMessage());
-		}
+		
+		subjectsList = subjectRepository.findAll();
+		
 		for (Subject subject : subjectsList) {
 			
 			if (!subject.getCode().equalsIgnoreCase(subCode)) 

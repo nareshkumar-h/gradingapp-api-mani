@@ -34,8 +34,4 @@ public class UserDetails {
 	@Column(name="password")
 	private String password;
 	
-	@Column(name="subject")
-	private String subject;
-	
-	
 }

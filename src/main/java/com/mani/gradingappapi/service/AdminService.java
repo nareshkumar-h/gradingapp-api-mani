@@ -11,9 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mani.gradingappapi.exception.DBException;
 import com.mani.gradingappapi.exception.ServiceException;
 import com.mani.gradingappapi.exception.ValidatorException;
+import com.mani.gradingappapi.model.Fsubject;
 import com.mani.gradingappapi.model.ScoreRange;
+import com.mani.gradingappapi.model.Subject;
 import com.mani.gradingappapi.model.UserDetails;
 import com.mani.gradingappapi.repository.AdminRepository;
+import com.mani.gradingappapi.repository.FSubjectRepository;
 import com.mani.gradingappapi.repository.ScoreRepository;
 import com.mani.gradingappapi.repository.UserRepository;
 import com.mani.gradingappapi.util.MessageConstant;
@@ -46,7 +49,8 @@ public class AdminService {
 	@Autowired
 	private GradeValidator gradeValidator;
 	
-	
+	@Autowired
+	private FSubjectRepository fSubjectRepository;
 
 	public UserDetails adminLogin(String name, String pwd) throws ServiceException {
 		
@@ -102,6 +106,9 @@ public class AdminService {
 			
 		} catch (ValidatorException e) {
 			throw new ServiceException(e.getMessage());
+		} catch (DBException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
 		}
 	}
 		
@@ -128,5 +135,27 @@ public class AdminService {
 				throw new ServiceException(MessageConstant.UNABLE_TO_DELETE_SCORE);
 		
 		return list;
+	}
+
+	public void updateEmpolyeeSubjectService(int userId, int subjectId) throws ServiceException {
+		System.out.println("UserId="+ userId + ",subjectId=" + subjectId);
+		Fsubject fSub = new Fsubject();
+		fSub = fSubjectRepository.findByUserIdAndSubId(userId, subjectId);
+		System.out.println(fSub);
+		if( fSub != null )
+			throw new ServiceException("This subject already allocated for this faculty");
+			
+		UserDetails user = new UserDetails();
+		Subject sub = new Subject();
+		Fsubject fSubject = new Fsubject();
+		
+		user.setId(userId);
+		sub.setId(subjectId);
+		
+		fSubject.setUserDetails(user);
+		fSubject.setSubject(sub);
+		
+		fSubjectRepository.save(fSubject);
+		
 	}
 }
