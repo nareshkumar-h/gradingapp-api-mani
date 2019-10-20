@@ -12,7 +12,6 @@ import com.mani.gradingappapi.model.UserDetails;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserDetails, Integer>{
-
 	
 	@Query(" from UserDetails where name = :name and password = :password and role = :role")
 	UserDetails login(@Param("name") String name, @Param("password") String password, @Param("role") String role);

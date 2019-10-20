@@ -1,5 +1,8 @@
 package com.mani.gradingappapi.dto;
 
+import lombok.Data;
+
+@Data
 public class StudentGradeDTO {
 
 	private Integer regNo;
@@ -10,35 +13,4 @@ public class StudentGradeDTO {
 	
 	private String grade;
 
-	public Integer getRegNo() {
-		return regNo;
-	}
-
-	public void setRegNo(Integer regNo) {
-		this.regNo = regNo;
-	}
-
-	public String getStudentName() {
-		return studentName;
-	}
-
-	public void setStudentName(String studentName) {
-		this.studentName = studentName;
-	}
-
-	public float getAvg() {
-		return avg;
-	}
-
-	public void setAvg(float avg) {
-		this.avg = avg;
-	}
-
-	public String getGrade() {
-		return grade;
-	}
-
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
 }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mani.gradingappapi.exception.ServiceException;
 import com.mani.gradingappapi.model.StudentMark;
 import com.mani.gradingappapi.model.Subject;
 import com.mani.gradingappapi.service.UserService;
@@ -34,12 +33,8 @@ public class SubjectController {
 		List<StudentMark> list = null;
 		String errorMessage = "";
 		String status = "";
-		try {
-			list = userFeature.findBySubjectCodeService(subCode);
-			status = "success";
-		} catch (ServiceException e) {
-			errorMessage = e.getMessage();
-		}
+		list = userFeature.findBySubjectCodeService(subCode);
+		status = "success";
 
 		if (status.equals("success")) {
 			return new ResponseEntity<>(list, HttpStatus.OK );

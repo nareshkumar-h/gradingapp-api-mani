@@ -77,13 +77,13 @@ public class GradeController {
 
 			status = "success";
 
-		} catch (ValidatorException e) {
-			errorMessage = e.getMessage();
 		}catch (ServiceException e) {
+			errorMessage = e.getMessage();
+		} catch (ValidatorException e) {
 			errorMessage = e.getMessage();
 		} 
 
-		if (status.equals("success")) {
+		if (status.equals("success")) { 
 			return new ResponseEntity<>(list, HttpStatus.OK );
 		} else {
 			Message message = new Message(errorMessage);

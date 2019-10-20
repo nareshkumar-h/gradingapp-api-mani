@@ -8,6 +8,7 @@ import com.mani.gradingappapi.exception.DBException;
 import com.mani.gradingappapi.exception.ValidatorException;
 import com.mani.gradingappapi.model.Subject;
 import com.mani.gradingappapi.repository.SubjectRepository;
+import com.mani.gradingappapi.util.MessageConstant;
 
 public class SubjectValidator {
 	
@@ -17,7 +18,7 @@ public class SubjectValidator {
 	public void subjectWiseRankHolder(String subCode) throws ValidatorException, DBException {
 
 		if (subCode == null || "".equals(subCode.trim()) || subCode.length() != 5)
-			throw new ValidatorException("Invalid Subject Code");
+			throw new ValidatorException(MessageConstant.INVALID_SUB_CODE);
 		
 		List<Subject> subjectsList = null;
 		
@@ -26,7 +27,7 @@ public class SubjectValidator {
 		for (Subject subject : subjectsList) {
 			
 			if (!subject.getCode().equalsIgnoreCase(subCode)) 
-				throw new ValidatorException("This Subject code is not exist");
+				throw new ValidatorException(MessageConstant.SUB_CODE_NOT_EXIST);
 		}	
 	}
 

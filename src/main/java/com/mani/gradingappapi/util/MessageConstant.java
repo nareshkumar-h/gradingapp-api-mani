@@ -2,41 +2,36 @@ package com.mani.gradingappapi.util;
 
 public interface MessageConstant {
 	
-	//ConnectionUtil Messages
-	public static final String DRIVER_CLASS = "Unable to load the driver class";
-	
-	public static final String SQL_CONNECTION = "Unable to get Connection";
-
-	public static final String CLOSE_CONNECTION = "Unable to close the Connection";
-	
-	//Service Messages
+	/* Service Messages */
 	public static final String INVALID_INPUT = "Invalid Username and password, Please enter the valid one";
+	public static final String SCORE_RANGE_EMPTY = "No score range updated";
 	
-	//DAO Messages
-	public static final String UNABLE_TO_LOGIN = "Unable to Login";
+	/* UserService Messages */
+	public static final String NO_RECORDS_AVAILABLE = "No record available.";
 	
-	public static final String UNABLE_TO_GET_RANGE = "Unable get the Score-Range";
+	/* GradeValidator */
+	public static final String GRADE_ALREADY_UPDATED = "This Grade already updated, Please try another.";
+	public static final String MINIMUM_RANGE_GREATER = "Minimum Range is Greater than Maximum Range, Please enter the valid Range.";
+	public static final String MIN_ALREADY_UPDATED = "Minimum range already updated, Please try another.";
+	public static final String MAX_ALREADY_UPDATED = "Minimum range already updated, Please try another.";
+	public static final String INVALID_GRADE = "Invalid grade, Please try again";
 	
-	public static final String UNABLE_TO_CHECK = "Unable to Check";
+	/* EmployeeValidator */
+	public static final String MAIL_AREADY_EXIST = "Mail Id already exist";
+	public static final String MOBILE_AREADY_EXIST = "Mobile Number already exist";
+	public static final String INVALID_PASSWORD = "Invalid Password";
+	public static final String PWD_MUST_BE_THE_FORMAT = "Password must contain at least one number, one uppercase, one lowercase and at least 8 or more characters";
+	public static final String INVALID_ROLE = "Invalid Role";
 	
-	public static final String NO_RECORDS_AVAILABLE = "Grade doesn't exist";
+	/* StudentValidator */
+	public static final String ALREADY_UPDATED = " already Updated";
+	public static final String MARK_DOESNOT_UPDATED = "This register number mark does not updated";
 	
-	//StudentGradeDao
-	public static final String UNABLE_TO_INSERT_GRADE = "Unable to update the grade";
+	/* SubjetcValidator */
+	public static final String INVALID_SUB_CODE = "Invalid Subject Code";
+	public static final String SUB_CODE_NOT_EXIST = "This Subject code is not exist";
 	
-	//StudentMarkDao
-	public static final String UNABLE_TO_INSERT_MARK ="Unable to update the marks";
+	/* UserValidator */
+	public static final String INVALID_NAME = "Invalid Name";
 	
-	//SubjectDao 
-	public static final String UNABLE_TO_GET_SUBJECTS = "Unable to get the Subject";
-	
-	//AdminDao
-	public static final String UNABLE_TO_UPDATE_SCORE = "Unable to update Score-Range";
-	
-	public static final String UNABLE_TO_DELETE_SCORE = "Unable to delete the Score-Range";
-	
-	//Employee Dao
-	public static final String UNABLE_TO_ADD = "Unable to add employee detail";
-	
-	public static final String UNABLE_TO_UPDATE = "Unable to update employee detail";
 }

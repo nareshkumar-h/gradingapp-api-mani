@@ -1,55 +1,37 @@
 package com.mani.gradingappapi.validator;
 
+import java.util.List;
 
-import com.mani.gradingappapi.dao.ValidatorDao;
-import com.mani.gradingappapi.dao.ValidatorDaoImpl;
-import com.mani.gradingappapi.exception.DBException;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.mani.gradingappapi.exception.ValidatorException;
+import com.mani.gradingappapi.model.StudentMark;
+import com.mani.gradingappapi.repository.StudentMarkRepository;
+import com.mani.gradingappapi.util.MessageConstant;
 
 public class StudentValidator {
 
+	@Autowired
+	private StudentMarkRepository studentMarkRepository;
+	
 	public void isRegnoUpdated(int regno) throws ValidatorException{
 
-		int regNo = 0;
-		String status = "";
-		ValidatorDao validator = new ValidatorDaoImpl();
-		try {
-			regNo = validator.findRegNo(regno);
-			status = validator.isMarkUpdated(regno);
-		} catch (DBException e) {
-			throw new ValidatorException(e.getMessage());
-		}	
+		List<StudentMark> list = null;
+		list = studentMarkRepository.findByRegNo(regno);	
 		
-		if(regno != regNo)
-			throw new ValidatorException("Register Number doesn't Exist");
-		if(status.equals("exist") )
-			throw new ValidatorException(regno+" already Updated..");
+		if( list.size() != 0 )
+			throw new ValidatorException(regno+ MessageConstant.ALREADY_UPDATED);
 	}
-	public void isRegnoExistService(int regno) throws ValidatorException{
-
-		int regNo = 0;
-		ValidatorDao validator = new ValidatorDaoImpl();
-		try {
-			regNo = validator.findRegNo(regno);
-		} catch (DBException e) {
-			throw new ValidatorException(e.getMessage());
-		}	
+	public void isRegnoExist(int regno) throws ValidatorException{
 		
-		if(regno != regNo)
-			throw new ValidatorException("Register Number doesn't Exist");
+		List<StudentMark> list = null;
+		list = studentMarkRepository.findByRegNo(regno);	
+		
+		System.out.println(list);
+		if( list.size() == 0 )
+			throw new ValidatorException(MessageConstant.MARK_DOESNOT_UPDATED);
 		
 	}
 		
 
-	public int ischangeInteger(String reg) throws ValidatorException {
-
-		int regno = 0;
-		
-		try {
-			regno = Integer.parseInt(reg);
-		} catch (Exception e) {
-			throw new ValidatorException("Invalid Reg-No, Please try again.");
-		}
-		return regno;
-	}
 }

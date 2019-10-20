@@ -6,10 +6,10 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mani.gradingappapi.exception.DBException;
 import com.mani.gradingappapi.exception.ValidatorException;
 import com.mani.gradingappapi.model.UserDetails;
 import com.mani.gradingappapi.repository.UserRepository;
+import com.mani.gradingappapi.util.MessageConstant;
 
 @Service
 public class EmployeeValidator {
@@ -26,7 +26,7 @@ public class EmployeeValidator {
         return matcher.matches();
     }
     
-	public void addedEmployeeValidation( UserDetails user) throws ValidatorException, DBException {
+	public void addedEmployeeValidation( UserDetails user) throws ValidatorException {
 			
 		if (user.getName() == null || "".equals(user.getName().trim())) {
 			throw new ValidatorException("Invalid Name");
@@ -34,21 +34,21 @@ public class EmployeeValidator {
 			
 		UserDetails email = userRepository.findByEmail(user.getEmail());
 		if( email != null )
-			throw new ValidatorException("Mail Id already exist");
+			throw new ValidatorException(MessageConstant.MAIL_AREADY_EXIST);
 			
 		UserDetails mobileNo = userRepository.findByMobNo(user.getMobno());
 		if( mobileNo != null )
-			throw new ValidatorException("Mobile Number already exist");
+			throw new ValidatorException(MessageConstant.MOBILE_AREADY_EXIST);
 			
 		if (user.getPassword() == null || "".equals(user.getPassword().trim()))
-			 throw new ValidatorException("Invalid Password"); 
+			 throw new ValidatorException(MessageConstant.INVALID_PASSWORD); 
 		
 		Boolean res = validate(user.getPassword());
 		if ( !res )
-			throw new ValidatorException("Password must contain at least one number, one uppercase, one lowercase and at least 8 or more characters"); 
+			throw new ValidatorException(MessageConstant.PWD_MUST_BE_THE_FORMAT); 
 		   
 		if (user.getRole() == null || "".equals(user.getRole().trim())) 
-			throw new ValidatorException("Invalid Role");
+			throw new ValidatorException(MessageConstant.INVALID_ROLE);
 			
 		}
 }

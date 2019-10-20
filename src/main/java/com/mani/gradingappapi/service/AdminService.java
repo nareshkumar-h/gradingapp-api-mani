@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mani.gradingappapi.exception.DBException;
 import com.mani.gradingappapi.exception.ServiceException;
 import com.mani.gradingappapi.exception.ValidatorException;
 import com.mani.gradingappapi.model.Fsubject;
 import com.mani.gradingappapi.model.ScoreRange;
 import com.mani.gradingappapi.model.Subject;
 import com.mani.gradingappapi.model.UserDetails;
-import com.mani.gradingappapi.repository.AdminRepository;
 import com.mani.gradingappapi.repository.FSubjectRepository;
 import com.mani.gradingappapi.repository.ScoreRepository;
 import com.mani.gradingappapi.repository.UserRepository;
@@ -23,8 +21,6 @@ import com.mani.gradingappapi.util.MessageConstant;
 import com.mani.gradingappapi.validator.EmployeeValidator;
 import com.mani.gradingappapi.validator.GradeValidator;
 import com.mani.gradingappapi.validator.UserValidator;
-import com.mani.gradingappapi.dao.AdminDao;
-import com.mani.gradingappapi.dao.AdminDaoImpl;
 
 @Service
 public class AdminService {
@@ -33,9 +29,6 @@ public class AdminService {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private AdminRepository adminRepository;
 	
 	@Autowired
 	private ScoreRepository scoreRepository;
@@ -52,6 +45,12 @@ public class AdminService {
 	@Autowired
 	private FSubjectRepository fSubjectRepository;
 
+	/** 
+	 * Admin Login in AdminService
+	 * @Param name, password
+	 * If the credential is Invalid, return ServiceException
+	 * If the credential is valid, return UserDetails object
+	 */
 	public UserDetails adminLogin(String name, String pwd) throws ServiceException {
 		
 		final String role = "A";
@@ -73,20 +72,34 @@ public class AdminService {
 		
 	}
 	
+	/** 
+	 * Add employee in AdminService
+	 * @Param UserDetails object
+	 * 
+	 * If the credential is Invalid, return ServiceException
+	 * 
+	 * If the credential is valid, insert UserDetails object
+	 */
 	public void addEmployeeService(UserDetails user) throws ServiceException {
 
 		try {
 			System.out.println(user);
 			employeeValidator.addedEmployeeValidation(user);
 			
-			adminRepository.save(user);
-		} catch (DBException e) {
-			throw new ServiceException(e.getMessage());
-		}catch (ValidatorException e) {
+			userRepository.save(user);
+		} catch (ValidatorException e) {
 			throw new ServiceException(e.getMessage());
 		}
 	}
 
+	/** 
+	 * Define score range in AdminService
+	 * @Param grade, min and max 
+	 * 
+	 * If the credential is Invalid, return ServiceException
+	 * 
+	 * If the credential is valid, insert ScoreRange object
+	 */
 	@Transactional
 	public void defineScoreRangeService(String grade, int min, int max) throws ServiceException{
 		
@@ -106,38 +119,45 @@ public class AdminService {
 			
 		} catch (ValidatorException e) {
 			throw new ServiceException(e.getMessage());
-		} catch (DBException e) {
-			e.printStackTrace();
-			throw new ServiceException(e.getMessage());
 		}
 	}
 		
-
+	/** 
+	 * Delete score range in AdminService
+	 * @Param No 
+	 */
 	public void deleteScoreRangeService() throws ServiceException{
 
-		AdminDao admindao = new AdminDaoImpl();
-		
-		try {
-			admindao.deleteScoreRange();
-		} catch (DBException e) {
-			throw new ServiceException(e.getMessage());
-		}
-		
+		scoreRepository.deleteAll();
 	}
 
+	/** 
+	 * View score range in AdminService
+	 * @Param No 
+	 * 
+	 * return List<ScoreRange>
+	 */
 	public List<ScoreRange> viewScoreRangeService() throws ServiceException{
 
 		List<ScoreRange> list = null;
 		
 			list = scoreRepository.findAll();
 			
-			if( list == null )
-				throw new ServiceException(MessageConstant.UNABLE_TO_DELETE_SCORE);
+			if( list.size() == 0 )
+				throw new ServiceException(MessageConstant.SCORE_RANGE_EMPTY);
 		
 		return list;
 	}
 
-	public void updateEmpolyeeSubjectService(int userId, int subjectId) throws ServiceException {
+	/** 
+	 * Update Employee Subject Service in AdminService
+	 * @Param userId and subjectId
+	 * 
+	 * If the credential already updated, return ServiceException
+	 * 
+	 * If the credential is valid, insert Fsubject object
+	 */
+	public void updateEmployeeSubjectService(int userId, int subjectId) throws ServiceException {
 		System.out.println("UserId="+ userId + ",subjectId=" + subjectId);
 		Fsubject fSub = new Fsubject();
 		fSub = fSubjectRepository.findByUserIdAndSubId(userId, subjectId);
