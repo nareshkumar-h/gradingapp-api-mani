@@ -16,7 +16,6 @@ import com.mani.gradingappapi.model.StudentDetail;
 import com.mani.gradingappapi.model.StudentMark;
 import com.mani.gradingappapi.model.Subject;
 import com.mani.gradingappapi.model.UserDetails;
-import com.mani.gradingappapi.repository.AdminRepository;
 import com.mani.gradingappapi.repository.GradeRepository;
 import com.mani.gradingappapi.repository.ScoreRepository;
 import com.mani.gradingappapi.repository.StudentMarkRepository;
@@ -33,9 +32,6 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private AdminRepository adminRepository;
 	
 	@Autowired
 	private UserValidator uservalidator;
@@ -55,9 +51,15 @@ public class UserService {
 	@Autowired
 	private SubjectRepository subjectRepository;
 	
+	final String role = "T";
+	
+	/** 
+	 * User Login in UserService
+	 * @Param name, password
+	 * If the credential is Invalid, return ServiceException
+	 * If the credential is valid, return UserDetails object
+	 */
 	public UserDetails userLogin(String name, String password) throws ServiceException {
-		
-		final String role = "T";
 		
 		UserDetails userdetail = null;
 		
@@ -78,12 +80,12 @@ public class UserService {
 
 	}
 
-	public void updateEmployeeService(UserDetails user) throws ServiceException{
-			System.out.println(user);
-			adminRepository.saveByEmail(user.getName(), user.getMobno(), user.getPassword(), user.getRole(), user.getSubject(), user.getEmail());
-		
-	}
-
+	/** 
+	 * list of Student based on grade Service in UserService
+	 * @Param No
+	 * 
+	 * return List of StudentGradeDTO
+	 */
 	public List<StudentGradeDTO> listOfStudentService() throws ServiceException {
 		
 		List<StudentGradeDTO> listOfStudent = new ArrayList<StudentGradeDTO>();
@@ -104,6 +106,11 @@ public class UserService {
 		return listOfStudent;
 	}
 
+	/** 
+	 * @Param Grade object
+	 * 
+	 * return StudentGradeDTO (dto object)
+	 */
 	public StudentGradeDTO toStudentGradeDTO(Grade studentGrade) {
 		StudentGradeDTO dto = new StudentGradeDTO();
 		final StudentDetail studentDetail = studentGrade.getStudentDetail();
@@ -114,24 +121,49 @@ public class UserService {
 		return dto;
 	}
 
-	public List<StudentMark> findBySubjectCodeService(String subCode) throws ServiceException {
+	/** 
+	 * find By SubjectCode Service in UserService
+	 * @Param subCode
+	 * 
+	 * return List<StudentMark>
+	 */
+	public List<StudentMark> findBySubjectCodeService(String subCode) {
 		return studentMarkRepository.findBySubjectCode(subCode);
 	}
 
+	/** 
+	 * getStudentResult Service in UserService
+	 * @Param regNo
+	 * 
+	 * return StudentGradeDTO object
+	 */
 	public StudentGradeDTO getStudentResult(int regno) {
 		Grade grade = gradeRepository.findByRegNo(regno);
 		StudentGradeDTO dto = toStudentGradeDTO(grade);
 		return dto;
 	}
 
+	/** 
+	 * getStudentMarks Service in UserService
+	 * @Param regNo
+	 * 
+	 * return List<StudentMark>
+	 */
 	public List<StudentMark> getStudentMarks(int regno) {
 		return studentMarkRepository.findByRegNo(regno);
 	}
 
+	/** 
+	 * update Marks And Grade Service in UserService
+	 * @Param regNo and List<StudentMark> marks
+	 * 
+	 * insert marks 
+	 * calculate total, average and grade
+	 * insert total, average and grade.
+	 */
 	public void updateMarksAndGradeService(int regno, List<StudentMark> marks) throws ServiceException {
 		
 		StudentDetail findByRegNo = studentRepository.findByRegNo(regno);
-		
 		
 		for (StudentMark studentMark : marks) {
 			Subject subjectCode = subjectRepository.findBySubCode(studentMark.getSubject().getCode()); 
@@ -157,20 +189,62 @@ public class UserService {
 		gradeRepository.save(grade);
 	}
 
+	/** 
+	 * findByGrade Service in UserService
+	 * @Param grade
+	 * 
+	 * If the credential is Invalid, return ServiceException
+	 * 
+	 * If the credential is valid, return List<StudentGradeDTO> 
+	 */
 	public List<StudentGradeDTO> findByGradeService(String grade)  throws ServiceException{
 		List<StudentGradeDTO> dtoList = new ArrayList<StudentGradeDTO>();
 		List<Grade> specificGradeList = null;
 		
 			specificGradeList = gradeRepository.findByGrade(grade);
-		
-			if (specificGradeList == null)
-				throw new ServiceException(MessageConstant.UNABLE_TO_GET_RECORDS);
 
-			for (Grade studentGrade : specificGradeList) {
-				StudentGradeDTO dto = toStudentGradeDTO(studentGrade);
+			System.out.println(specificGradeList);
+			
+			
+				for (Grade studentGrade : specificGradeList) {
+					StudentGradeDTO dto = toStudentGradeDTO(studentGrade);
+					
+					dtoList.add(dto);
+				}
 				
-				dtoList.add(dto);
-			}
-		return dtoList;
+			if ( dtoList.size() == 0 )
+				throw new ServiceException(MessageConstant.NO_RECORDS_AVAILABLE);
+
+			return dtoList;
+	}
+
+	/** 
+	 * listOfUser Service in UserService
+	 * @Param No
+	 * 
+	 * return List<UserDetails>
+	 */
+	public List<UserDetails> listOfUser() {
+
+		List<UserDetails> list = new ArrayList<UserDetails>();
+		list = userRepository.findByRole(role);
+		
+		return list;
+		
+	}
+
+	/** 
+	 * subjectList Service in UserService
+	 * @Param No
+	 * 
+	 * return List<Subject>
+	 */
+	public List<Subject> subjectListService() {
+
+		List<Subject> list = new ArrayList<Subject>();
+		
+		list = subjectRepository.findAll();
+		
+		return list;
 	}
 }

@@ -2,28 +2,32 @@ package com.mani.gradingappapi.validator;
 
 import java.util.List;
 
-import com.mani.gradingappapi.dao.SubjectDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.mani.gradingappapi.exception.DBException;
 import com.mani.gradingappapi.exception.ValidatorException;
 import com.mani.gradingappapi.model.Subject;
+import com.mani.gradingappapi.repository.SubjectRepository;
+import com.mani.gradingappapi.util.MessageConstant;
 
 public class SubjectValidator {
+	
+	@Autowired
+	private SubjectRepository subjectRepository;
 
 	public void subjectWiseRankHolder(String subCode) throws ValidatorException, DBException {
 
 		if (subCode == null || "".equals(subCode.trim()) || subCode.length() != 5)
-			throw new ValidatorException("Invalid Subject Code");
+			throw new ValidatorException(MessageConstant.INVALID_SUB_CODE);
 		
 		List<Subject> subjectsList = null;
-		try {
-			subjectsList = new SubjectDaoImpl().findAll();
-		} catch (DBException e) {
-			throw new DBException(e.getMessage());
-		}
+		
+		subjectsList = subjectRepository.findAll();
+		
 		for (Subject subject : subjectsList) {
 			
 			if (!subject.getCode().equalsIgnoreCase(subCode)) 
-				throw new ValidatorException("This Subject code is not exist");
+				throw new ValidatorException(MessageConstant.SUB_CODE_NOT_EXIST);
 		}	
 	}
 

@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mani.gradingappapi.exception.ServiceException;
 import com.mani.gradingappapi.model.UserDetails;
 import com.mani.gradingappapi.service.AdminService;
-import com.mani.gradingappapi.service.UserService;
 import com.mani.gradingappapi.util.Message;
 
 import io.swagger.annotations.ApiOperation;
@@ -22,8 +20,6 @@ import io.swagger.annotations.ApiResponses;
 public class EmployeeController {
 	@Autowired
 	private AdminService adminService;
-	@Autowired
-	private UserService userService;
 
 	@PostMapping("admin/addEmployee")
 	//@ResponseStatus(code = HttpStatus.CREATED)
@@ -51,37 +47,31 @@ public class EmployeeController {
 		}
 	}
 	
-	@PutMapping("user/updateEmployee")
-	//@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	@PostMapping("admin/employeeSubject")
+	//@ResponseStatus(code = HttpStatus.CREATED)
 	@ApiOperation(value = "Employee API")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Logged In", response = Message.class),
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "SuccessFully Updated", response = Message.class),
 			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
-	public ResponseEntity<?> updateEmpolyee(@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("mobno")Long mobNo, @RequestParam("password")String password, @RequestParam("role")String role, @RequestParam("subject")String subject) {
-
-		UserDetails userDetails = new UserDetails();
-		userDetails.setName(name);
-		userDetails.setEmail(email);
-		userDetails.setMobno(mobNo);
-		userDetails.setPassword(password);
-		userDetails.setRole(role);
-		userDetails.setSubject(subject);
+	public ResponseEntity<?> updateEmpolyeeSubject(@RequestParam("uid")int userId, @RequestParam("sid")int subjectId) {
 		
 		String errorMessage = null;
 		String status = "";
 		try {
-			userService.updateEmployeeService(userDetails);
+			adminService.updateEmployeeSubjectService(userId, subjectId );
 			status = "Success";
 		} catch (ServiceException e) {
 			errorMessage = e.getMessage();
 		}
-	
+		
 		if (status.equals("Success")) {
 			Message message = new Message(status);
-			return new ResponseEntity<>(message, HttpStatus.OK);
+			message.setInfoMessage(status);
+			return new ResponseEntity<>(message, HttpStatus.CREATED);
 			
 		} else {
 			Message message = new Message(errorMessage);
 			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
 		}
 	}
+	
 }

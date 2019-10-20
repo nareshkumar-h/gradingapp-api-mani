@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mani.gradingappapi.dto.StudentGradeDTO;
-import com.mani.gradingappapi.model.StudentDetail;
+import com.mani.gradingappapi.exception.ValidatorException;
 import com.mani.gradingappapi.model.StudentMark;
 import com.mani.gradingappapi.service.UserService;
 import com.mani.gradingappapi.util.Message;
@@ -26,6 +26,9 @@ public class ResultController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private StudentValidator studentValidator;
+	
 	@GetMapping("studentResult")
 	//@ResponseStatus ( code = HttpStatus.OK)
 	@ApiOperation(value = "Result API")
@@ -34,29 +37,16 @@ public class ResultController {
 	public ResponseEntity<?> studentResult(@RequestParam("regno")int regno){
 		List<StudentMark> markList = null;
 		StudentGradeDTO studentResult = null;
-		StudentDetail studentDetail = null;
 		try {
+			studentValidator.isRegnoExist(regno);
 			
-			// Reg-No validator
-			StudentValidator studentValidate = new StudentValidator();
-			studentValidate.isRegnoExistService(regno);
-			
-			//get the StudentName, Average, Grade
 			studentResult = userService.getStudentResult(regno);
-			
-			//get the Marks and Sub-Code
 			markList = userService.getStudentMarks(regno);
 			
-			for (StudentMark studentMark : markList) {
-				studentDetail = studentMark.getStudentDetail();
-			}
-			
 			ResultResponseDto result = new ResultResponseDto(markList, studentResult);
-			//json = "{\"marks\"" +":"+ "" + json1+ ", \"SD\""+":" + "" + json2+ "}"; 
-			//convert list to json
+
 			return new ResponseEntity<>(result, HttpStatus.OK);
-			
-		} catch (Exception e) {
+		} catch (ValidatorException e) {
 			Message message = new Message(e.getMessage());
 			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 		}
