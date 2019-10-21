@@ -10,7 +10,7 @@ import com.mani.gradingappapi.model.StudentMark;
 
 public interface StudentMarkRepository extends JpaRepository<StudentMark, Integer> {
 
-	@Query(" from StudentMark sm where sm.subject.code =:code")
+	@Query(value="select sm.* from student_marks sm where sm.subject_code =:code order by sm.marks desc", nativeQuery = true)
 	List<StudentMark> findBySubjectCode(@Param("code") String subCode);
 
 	@Query(" from StudentMark sm where sm.studentDetail.regNo =?1")
